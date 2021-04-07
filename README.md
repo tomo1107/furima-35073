@@ -5,7 +5,7 @@
 | Column              | Type     | Options                        |
 | ------              | -------- | ------------------------------ |
 | nickname            | string   | null: false                    |
-| email               | string   | null: false, uniqueness: true  |
+| email               | string   | null: false, unique: true      |
 | encrypted_password  | string   | null: false                    |
 | first_name          | string   | null: false                    |
 | last_name           | string   | null: false                    |
@@ -27,9 +27,8 @@
 | category_id         | int        | null: false                    |
 | item_status_id      | int        | null: false                    |
 | delivery_fee_id     | int        | null: false                    |
-| delivery_from_id    | int        | null: false                    |
+| prefecture_id       | int        | null: false                    |
 | date_of_delivery_id | int        | null: false                    |
-| is_purchased        | boolean    | null: false                    |
 | user                | references | null: false, foreign_key: true |
 
 ### Association
@@ -57,7 +56,7 @@
 | city          | string     | null: false                    |
 | address       | string     | null: false                    |
 | building      | string     |                                |
-| phone         | int        | null: false                    |
+| phone         | string     | null: false                    |
 | purchase      | references | null: false, foreign_key: true |
 
 ### Association
