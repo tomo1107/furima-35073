@@ -8,17 +8,19 @@ class User < ApplicationRecord
   FULL_WIDTH_KATAKANA_REGEX = /\A[ァ-ヶー－]+\z/.freeze     #全角カタカナのみ
   PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze     #英数字混合
   
-  validates_format_of :password, with: PASSWORD_REGEX, message: 'Include both letters and numbers' 
-  validates :nickname, presence: true
-  validates :first_name, presence: true
-  validates_format_of :first_name, with: FULL_WIDTH_REGEX, message: 'Full-width characters' 
-  validates :last_name, presence: true
-  validates_format_of :last_name, with: FULL_WIDTH_REGEX, message: 'Full-width characters' 
-  validates :kana_first_name, presence: true
-  validates_format_of :kana_first_name, with: FULL_WIDTH_KATAKANA_REGEX, message: 'Full-width katakana characters' 
-  validates :kana_last_name, presence: true
-  validates_format_of :kana_last_name, with: FULL_WIDTH_KATAKANA_REGEX, message: 'Full-width katakana characters' 
-  validates :birthday, presence: true
+  validates :password, format: { with: PASSWORD_REGEX, message: 'Include both letters and numbers' }
+  with_options presence: true do
+    validates :nickname
+    with_options format: { with: FULL_WIDTH_REGEX, message: 'Full-width characters' } do
+      validates :first_name
+      validates :last_name
+    end
+    with_options format: { with: FULL_WIDTH_KATAKANA_REGEX, message: 'Full-width katakana characters' } do
+      validates :kana_first_name
+      validates :kana_last_name
+    end
+    validates :birthday
+  end
 
   # has_many :items
   # has_many :purchases
