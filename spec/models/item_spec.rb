@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  describe '#create' do
+  describe 'Item商品出品機能' do
     before do
       @item = FactoryBot.build(:item)
     end
@@ -81,40 +81,55 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
+      it '値段が全角数字では出品できないこと' do
+        @item.price = '１２３４５'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price Half-width number')
+      end
+      it '値段が半角英数混合では出品できないこと' do
+        @item.price = '12345a1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price Half-width number')
+      end
+      it '値段が半角英語だけでは出品できないこと' do
+        @item.price = 'abcdef'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price Half-width number')
+      end
       it '値段が300円未満では出品できないこと' do
         @item.price = 299
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price Out of setting range")
+        expect(@item.errors.full_messages).to include('Price Out of setting range')
       end
       it '値段が9,999,999円より大きい場合、出品できないこと' do
         @item.price = 10_000_000
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price Out of setting range")
+        expect(@item.errors.full_messages).to include('Price Out of setting range')
       end
       it '商品カテゴリでid = 1(--)を選択した場合、出品できないこと' do
         @item.category_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Category Select")
+        expect(@item.errors.full_messages).to include('Category Select')
       end
       it '商品の状態でid = 1(--)を選択した場合、出品できないこと' do
         @item.item_status_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Item status Select")
+        expect(@item.errors.full_messages).to include('Item status Select')
       end
       it '配送料の負担でid = 1(--)を選択した場合、出品できないこと' do
         @item.delivery_fee_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Delivery fee Select")
+        expect(@item.errors.full_messages).to include('Delivery fee Select')
       end
       it '発送元の地域でid = 1(--)を選択した場合、出品できないこと' do
         @item.prefecture_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Prefecture Select")
+        expect(@item.errors.full_messages).to include('Prefecture Select')
       end
       it '発送までの日数でid = 1(--)を選択した場合、出品できないこと' do
         @item.date_of_delivery_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Date of delivery Select")
+        expect(@item.errors.full_messages).to include('Date of delivery Select')
       end
     end
   end
