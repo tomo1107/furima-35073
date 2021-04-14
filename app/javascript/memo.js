@@ -1,6 +1,6 @@
 function calcTaxProfit(){
   const priceForm = document.getElementById("item-price");
-  priceForm.addEventListener('keydown', () => {
+  priceForm.addEventListener('keyup', () => {
     const form = document.getElementById("item-price");
     const addTaxPrice = document.getElementById("add-tax-price");
     const profit = document.getElementById("profit");
