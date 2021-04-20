@@ -1,9 +1,8 @@
 class PurchaseDeliveryInformation
   include ActiveModel::Model
-  attr_accessor :price, :token, :user_id, :item_id, :postal_code, :prefecture_id, :city, :address, :building, :phone
+  attr_accessor :token, :user_id, :item_id, :postal_code, :prefecture_id, :city, :address, :building, :phone
 
   with_options presence: true do
-    validates :price
     validates :token
     validates :user_id
     validates :item_id
